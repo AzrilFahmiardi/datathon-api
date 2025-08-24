@@ -1,0 +1,157 @@
+{
+	"info": {
+		"name": "Influencer Recommendation API",
+		"description": "Collection untuk testing Influencer Recommendation API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/",
+					"host": ["{{baseUrl}}"],
+					"path": [""]
+				}
+			}
+		},
+		{
+			"name": "2. Data Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/data-status",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "data-status"]
+				}
+			}
+		},
+		{
+			"name": "3. Validate Brief",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"brief_id\": \"BRIEF_001\",\n  \"brand_name\": \"Beauty Brand\",\n  \"industry\": \"Beauty\",\n  \"influencer_persona\": \"Beauty enthusiast, authentic reviewer\",\n  \"total_influencer\": 3,\n  \"budget\": 50000000.0\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/validate-brief",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "validate-brief"]
+				}
+			}
+		},
+		{
+			"name": "4. Calculate Adaptive Weights",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"marketing_objective\": [\"Cognitive\", \"Affective\"],\n  \"target_goals\": [\"Awareness\", \"Brand Perception\"],\n  \"timing_campaign\": \"2025-03-15\",\n  \"esg_allignment\": [\"Cruelty-free\"],\n  \"risk_tolerance\": \"Medium\",\n  \"niche\": [\"Beauty\", \"Lifestyle\"],\n  \"location_prior\": [\"Indonesia\"]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/adaptive-weights",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "adaptive-weights"]
+				}
+			}
+		},
+		{
+			"name": "5. Recommend Influencers (Full)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"brief_id\": \"BRIEF_001\",\n  \"brand_name\": \"Avoskin\",\n  \"industry\": \"Skincare & Beauty\",\n  \"product_name\": \"GlowSkin Vitamin C Serum\",\n  \"overview\": \"Premium vitamin C serum untuk mencerahkan dan melindungi kulit dari radikal bebas\",\n  \"usp\": \"Formula 20% Vitamin C dengan teknologi nano-encapsulation untuk penetrasi optimal\",\n  \"marketing_objective\": [\"Cognitive\", \"Affective\"],\n  \"target_goals\": [\"Awareness\", \"Brand Perception\", \"Product Education\"],\n  \"timing_campaign\": \"2025-03-15\",\n  \"audience_preference\": {\n    \"top_locations\": {\n      \"countries\": [\"Indonesia\", \"Malaysia\"],\n      \"cities\": [\"Jakarta\", \"Surabaya\", \"Bandung\"]\n    },\n    \"age_range\": [\"18-24\", \"25-34\"],\n    \"gender\": [\"Female\"]\n  },\n  \"influencer_persona\": \"Beauty enthusiast, skincare expert, authentic product reviewer yang suka berbagi tips perawatan kulit dan review produk secara detail\",\n  \"total_influencer\": 3,\n  \"niche\": [\"Beauty\", \"Lifestyle\"],\n  \"location_prior\": [\"Indonesia\", \"Malaysia\"],\n  \"esg_allignment\": [\"Cruelty-free\", \"sustainable packaging\"],\n  \"budget\": 50000000.0,\n  \"output\": {\n    \"content_types\": [\"Reels\", \"Feeds\"],\n    \"deliverables\": 6\n  },\n  \"risk_tolerance\": \"Medium\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/recommend-influencers?adaptive_weights=true&include_insights=true",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "recommend-influencers"],
+					"query": [
+						{
+							"key": "adaptive_weights",
+							"value": "true"
+						},
+						{
+							"key": "include_insights",
+							"value": "true"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "6. Recommend Influencers (Simple)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"brief_id\": \"BRIEF_002\",\n  \"brand_name\": \"Tech Startup\",\n  \"industry\": \"Technology\",\n  \"influencer_persona\": \"Tech reviewer, gadget enthusiast\",\n  \"total_influencer\": 2,\n  \"budget\": 30000000.0,\n  \"audience_preference\": {\n    \"age_range\": [\"25-34\"],\n    \"gender\": [\"Male\", \"Female\"]\n  }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/recommend-influencers",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "recommend-influencers"]
+				}
+			}
+		},
+		{
+			"name": "7. Get Influencer Insight",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/influencer-insight/beautyinfluencer123",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "influencer-insight", "beautyinfluencer123"]
+				}
+			}
+		},
+		{
+			"name": "8. Reload Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/reload-data",
+					"host": ["{{baseUrl}}"],
+					"path": ["api", "reload-data"]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		}
+	]
+}
