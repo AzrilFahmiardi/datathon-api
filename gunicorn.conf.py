@@ -1,7 +1,10 @@
 # Gunicorn configuration file
 import os
 
-bind = f"0.0.0.0:{os.environ.get('PORT', '10000')}"
+# Render requires binding to 0.0.0.0:$PORT
+port = os.environ.get('PORT', '10000')
+bind = f"0.0.0.0:{port}"
+
 workers = 1  # Reduced for memory efficiency
 timeout = 300  # 5 minutes for model loading and processing
 keepalive = 2
