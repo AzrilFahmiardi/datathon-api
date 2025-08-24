@@ -1,9 +1,11 @@
 # Gunicorn configuration file
-bind = "0.0.0.0:5000"
-workers = 2
+import os
+
+bind = f"0.0.0.0:{os.environ.get('PORT', '10000')}"
+workers = 1  # Reduced for memory efficiency
 timeout = 300  # 5 minutes for model loading and processing
 keepalive = 2
-max_requests = 1000
+max_requests = 500  # Reduced for memory management
 max_requests_jitter = 50
 preload_app = True
 worker_class = "sync"

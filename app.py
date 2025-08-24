@@ -75,12 +75,10 @@ def load_data():
         logger.error(f"Error loading datasets: {e}")
         return False
 
-# Load data saat aplikasi start
-@app.before_request  
-def startup():
-    global df_instagram_influencers
-    if df_instagram_influencers is None:
-        load_data()
+# Load data saat aplikasi start (hanya sekali)
+logger.info("Loading datasets on startup...")
+if not load_data():
+    logger.error("Failed to load data. Some features may not work.")
 
 @app.route('/', methods=['GET'])
 def health_check():
@@ -161,6 +159,11 @@ def health_check():
             }
         }
     })
+
+@app.route('/health', methods=['GET'])
+def simple_health():
+    """Simple health check for Render"""
+    return jsonify({"status": "ok"})
 
 @app.route('/api/recommend-influencers', methods=['POST'])
 def recommend_influencers():
@@ -541,14 +544,10 @@ def reload_data():
         }), 500
 
 if __name__ == '__main__':
-    # Load data on startup
-    if load_data():
-        logger.info("Starting Flask application...")
-        # Get configuration from environment variables
-        host = os.getenv('API_HOST', '0.0.0.0')
-        port = int(os.getenv('API_PORT', '5000'))
-        debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
-        
-        app.run(debug=debug, host=host, port=port)
-    else:
-        logger.error("Failed to load data. Application cannot start.")
+    # Get configuration from environment variables
+    host = os.getenv('API_HOST', '0.0.0.0')
+    port = int(os.getenv('PORT', os.getenv('API_PORT', '5000')))
+    debug = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    logger.info(f"Starting Flask application on {host}:{port}")
+    app.run(debug=debug, host=host, port=port)
