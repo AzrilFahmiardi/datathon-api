@@ -7,6 +7,11 @@ import warnings
 from datetime import datetime
 import traceback
 import logging
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Import semua class dan fungsi dari sistem rekomendasi
 from influencer_recommendation_system import (
@@ -29,11 +34,22 @@ warnings.filterwarnings('ignore')
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=os.getenv('CORS_ORIGINS', '*').split(','))
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=os.getenv('LOG_LEVEL', 'INFO'))
 logger = logging.getLogger(__name__)
+
+# Configuration from environment variables
+app.config['FLASK_ENV'] = os.getenv('FLASK_ENV', 'development')
+app.config['FLASK_DEBUG'] = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
+
+# Data URLs from environment variables
+INFLUENCERS_DATA_URL = os.getenv('INFLUENCERS_DATA_URL', 'https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/instagram_influencers_final.csv')
+CAPTION_DATA_URL = os.getenv('CAPTION_DATA_URL', 'https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/labeled_caption.csv')
+COMMENT_DATA_URL = os.getenv('COMMENT_DATA_URL', 'https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/labeled_comment.csv')
+BIO_DATA_URL = os.getenv('BIO_DATA_URL', 'https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/bio.csv')
+CAPTIONS_DATA_URL = os.getenv('CAPTIONS_DATA_URL', 'https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/captions.csv')
 
 # Global variables untuk data
 df_instagram_influencers = None
@@ -48,11 +64,11 @@ def load_data():
     
     try:
         logger.info("Loading datasets...")
-        df_instagram_influencers = pd.read_csv("https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/instagram_influencers_final.csv")
-        df_labeled_caption = pd.read_csv("https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/labeled_caption.csv")
-        df_labeled_comment = pd.read_csv("https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/labeled_comment.csv")
-        df_bio = pd.read_csv("https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/bio.csv")
-        df_captions = pd.read_csv("https://raw.githubusercontent.com/AzrilFahmiardi/yujiem-rookie-datathon-2025/refs/heads/master/input/captions.csv")
+        df_instagram_influencers = pd.read_csv(INFLUENCERS_DATA_URL)
+        df_labeled_caption = pd.read_csv(CAPTION_DATA_URL)
+        df_labeled_comment = pd.read_csv(COMMENT_DATA_URL)
+        df_bio = pd.read_csv(BIO_DATA_URL)
+        df_captions = pd.read_csv(CAPTIONS_DATA_URL)
         logger.info("All datasets loaded successfully")
         return True
     except Exception as e:
@@ -528,6 +544,11 @@ if __name__ == '__main__':
     # Load data on startup
     if load_data():
         logger.info("Starting Flask application...")
-        app.run(debug=True, host='0.0.0.0', port=5000)
+        # Get configuration from environment variables
+        host = os.getenv('API_HOST', '0.0.0.0')
+        port = int(os.getenv('API_PORT', '5000'))
+        debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
+        
+        app.run(debug=debug, host=host, port=port)
     else:
         logger.error("Failed to load data. Application cannot start.")
