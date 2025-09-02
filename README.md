@@ -2,18 +2,6 @@
 
 API Flask untuk sistem rekomendasi influencer berbasis machine learning yang dikembangkan untuk Datathon Ristek 2025. Sistem ini menggunakan berbagai algoritma advanced seperti semantic matching, budget optimization, dan multi-objective ranking untuk memberikan rekomendasi influencer yang optimal.
 
-## Daftar Isi
-
-- [Features](#-features)
-- [Cara Install & Menjalankan](#-cara-install--menjalankan)
-- [API Endpoints](#-api-endpoints)
-- [Cara Penggunaan](#-cara-penggunaan)
-- [Testing](#-testing)
-- [Deploy ke Production](#-deploy-ke-production)
-- [Struktur Project](#-struktur-project)
-- [Troubleshooting](#-troubleshooting)
-
-
 
 ## 🛠 Cara Install & Menjalankan
 
