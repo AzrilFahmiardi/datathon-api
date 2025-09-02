@@ -103,28 +103,7 @@
 			}
 		},
 		{
-			"name": "6. Recommend Influencers (Simple)",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"brief_id\": \"BRIEF_002\",\n  \"brand_name\": \"Tech Startup\",\n  \"industry\": \"Technology\",\n  \"influencer_persona\": \"Tech reviewer, gadget enthusiast\",\n  \"total_influencer\": 2,\n  \"budget\": 30000000.0,\n  \"audience_preference\": {\n    \"age_range\": [\"25-34\"],\n    \"gender\": [\"Male\", \"Female\"]\n  }\n}"
-				},
-				"url": {
-					"raw": "{{baseUrl}}/api/recommend-influencers",
-					"host": ["{{baseUrl}}"],
-					"path": ["api", "recommend-influencers"]
-				}
-			}
-		},
-		{
-			"name": "7. Get Influencer Insight",
+			"name": "6. Get Influencer Insight",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -136,7 +115,7 @@
 			}
 		},
 		{
-			"name": "8. Reload Data",
+			"name": "7. Reload Data",
 			"request": {
 				"method": "POST",
 				"header": [],
